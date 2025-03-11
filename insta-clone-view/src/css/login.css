@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@layer components {
+    input {
+        @apply rounded-xs w-full h-10 border border-gray-400 pl-2 text-white text-sm;
+    }
+
+    label {
+        @apply absolute left-2 bottom-3 text-sm transition;
+    }
+}
+
+
+@theme {
+    --animate-moveUp: moveUp .2s linear 1 forwards;
+
+    @keyframes moveUp {
+        to {
+            position: absolute;
+            bottom: 1.3rem;
+            font-size: 0.75rem;
+        }
+    }
+}

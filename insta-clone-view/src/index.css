@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@layer components {
+  body {
+    @apply bg-black text-white;
+  }
+
+  html {
+    @apply overflow-y-scroll;
+  }
+}
