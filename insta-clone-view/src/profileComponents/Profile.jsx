@@ -3,11 +3,12 @@ import { IoIosSettings } from "react-icons/io";
 import axios from "axios";
 import ProfileModel from './ProfileModel';
 import { useNavigate } from 'react-router-dom';
-
+import ProfileButtons from './ProfileButtons';
 
 export default function Profile() {
     const [profile, setProfile] = useState();
     const [open, setOpen] = useState(false);
+    const [openSettingModal, setOpenSettingsModal] = useState(false);
     const [postCount, setPostCount] = useState(0);
     const fileUploadRef = useRef(null);
     const navigate = useNavigate();
@@ -82,7 +83,6 @@ export default function Profile() {
                         <button className='text-sky-500 focus:bg-gray-800  py-2' onClick={() => fileUploadRef.current.click()}>Upload Picture</button>
                         <button className='text-red-500 focus:bg-gray-800  py-2'>Remove Current Picture</button>
                         <button className='focus:bg-gray-800  py-2' onClick={() => setOpen(false)}>Cancle</button>
-                        <button className='focus:bg-gray-800  py-2' onClick={handleLogout}>logout</button>
                     </div>
                     <input ref={fileUploadRef} type="file" className='hidden' onChange={handleUploadProfile} />
                 </div>
@@ -91,13 +91,18 @@ export default function Profile() {
                 <div className='flex gap-4'>
                     <div>{user.username}</div>
                     <div className='flex gap-2 justify-center'>
-                        <button className="rounded-md px-2 py-1 bg-gray-500 text-xs font-bold " >Edit Profile</button>
-                        <button className="rounded-md px-2 py-1 bg-gray-500 text-xs font-bold " >Share Profile</button>
+                        <ProfileButtons onClick={() => console.log('hello')} label={"Edit Profile"}></ProfileButtons>
+                        <ProfileButtons onClick={() => console.log('hellp')} label={"Share Profile"}></ProfileButtons>
                         <button className="text-white text-2xl">
-                            <IoIosSettings />
+                            <IoIosSettings onClick={() => setOpenSettingsModal(true)} />
                         </button>
                     </div>
                 </div>
+                <ProfileModel open={openSettingModal} onClose={() => setOpenSettingsModal(false)} >
+                    <div className=" w-54 h-54 rounded bg-gray-500 text-center flex justify-center items-center">
+                        <button className='focus:bg-gray-800  py-2 hover:bg-gray-800 w-full' onClick={handleLogout}>logout</button>
+                    </div>
+                </ProfileModel>
                 <div className='flex justify-between gap-2 mt-2'>
                     <div>
                         <p className='text-gray-400'><span className='font-bold mr-1 text-white'>{postCount}</span>Posts</p>

@@ -7,6 +7,7 @@ import Sidebar from './components/Sidebar'
 import UserProfile from './components/UserProfile'
 import Posts from './profileComponents/Posts'
 import Tags from './profileComponents/Tags'
+import ViewUserProfile from './components/ViewUserProfile'
 function App() {
 
   const noSidebarLocation = ["/", "/Signup"];
@@ -30,7 +31,9 @@ function App() {
             path='/Signup'
             element={<Signup />}
           />
-          <Route path='/Home' element={<Home />} />
+          <Route path='/Home' element={<Home />} >
+            <Route path='profile/:id' element={<ViewUserProfile />} />
+          </Route>
           <Route path='/Profile' element={<UserProfile />} >
             <Route path='posts' element={<Posts />} />
             <Route path='tags' element={<Tags />} />
