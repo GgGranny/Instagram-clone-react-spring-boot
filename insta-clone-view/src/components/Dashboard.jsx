@@ -3,7 +3,6 @@ import axios from 'axios';
 import Card from './Card';
 import { useNavigate } from 'react-router-dom';
 
-
 export default function Dashboard() {
     const [user, setUser] = useState([]);
     const [image, setImage] = useState(null);
@@ -19,8 +18,7 @@ export default function Dashboard() {
             .catch((error) => {
                 navigate("/");
             })
-    })
-
+    }, []); // Add dependency array here
 
     useEffect(() => {
         axios.get('http://localhost:8080/api/getAllUsers', { withCredentials: true })
@@ -61,7 +59,7 @@ export default function Dashboard() {
                     let filteredUser = user.filter((u) => post.userId === u.id);
                     console.log(" filtered user", filteredUser)
                     return (
-                        <Card key={post.id} post={post} filteredUser={filteredUser} />
+                        <Card key={post.id} post={post} filteredUser={filteredUser} onClick={() => navigate(`/profile/${filteredUser[0].id}`, { state: { id: filteredUser[0].id } })} />
                     )
                 })}
             </div>

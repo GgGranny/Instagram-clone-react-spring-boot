@@ -45,7 +45,7 @@ public class ContentRestController {
         return !content.isEmpty() ? ResponseEntity.ok().body(content) : new ResponseEntity<>("no content available", HttpStatus.BAD_GATEWAY);
     }
 
-    @GetMapping("getUserPosts")
+    @GetMapping("/getUserPosts")
     public ResponseEntity<?> getUserPosts(HttpSession session) {
         List<Content> content = userService.getOurUserPosts(session);
         if(content.isEmpty()) {
@@ -54,10 +54,16 @@ public class ContentRestController {
             return ResponseEntity.ok().body(content);
         }
     }
-    @GetMapping("/getPostCount")
-    public Integer getUsersPostCount(HttpSession session) {
-        OurUser user = (OurUser) session.getAttribute("user");
-        List<Content> content = contentRepo.findByUserId(user.getId());
+    @GetMapping("/getPostCount/{id}")
+    public Integer getUsersPostCount(@PathVariable("id") int id) {
+        List<Content> content = contentRepo.findByUserId(id);
         return !content.isEmpty() ? content.size() : 0;
+    }
+
+    @GetMapping("/getUserContentById/{id}")
+    public ResponseEntity<?> getUserContentById(@PathVariable("id") int id) {
+        List<Content> content = contentRepo.findByUserId(id);
+        return !content.isEmpty() ? ResponseEntity.ok().body(content) :
+                new ResponseEntity<>("no content available", HttpStatus.BAD_REQUEST);
     }
 }

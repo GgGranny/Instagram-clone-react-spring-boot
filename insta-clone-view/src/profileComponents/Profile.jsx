@@ -12,8 +12,8 @@ export default function Profile() {
     const [postCount, setPostCount] = useState(0);
     const fileUploadRef = useRef(null);
     const navigate = useNavigate();
-
     const [user, setUser] = useState({
+        id: '',
         username: '',
         fullname: '',
         profilePhoto: null,
@@ -41,6 +41,7 @@ export default function Profile() {
         axios.get("http://localhost:8080/api/user", { withCredentials: true })
             .then((response) => {
                 setUser({
+                    id: response.data.id,
                     username: response.data.username,
                     profilePhoto: `data:image/jpeg;base64,${response.data.profilePicture}`,
                     fullname: response.data.fullname
@@ -59,12 +60,13 @@ export default function Profile() {
     }
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/getPostCount", { withCredentials: true })
+        axios.get(`http://localhost:8080/api/getPostCount/${user.id}`, { withCredentials: true })
             .then((response) => {
                 setPostCount(response.data);
             })
             .catch(error => console.log("error", error));
-    }, [postCount]);
+    }, [postCount, user]);
+
     return (
         <div className='flex justify-around w-[60%] text-sm gap-x-3 pt-10 text-white'>
             <div className='w-30 h-30 rounded-full border'>
@@ -91,8 +93,8 @@ export default function Profile() {
                 <div className='flex gap-4'>
                     <div>{user.username}</div>
                     <div className='flex gap-2 justify-center'>
-                        <ProfileButtons onClick={() => console.log('hello')} label={"Edit Profile"}></ProfileButtons>
-                        <ProfileButtons onClick={() => console.log('hellp')} label={"Share Profile"}></ProfileButtons>
+                        <ProfileButtons backgroundColor="bg-gray-800" onClick={() => console.log('hello')} label={"Edit Profile"}></ProfileButtons>
+                        <ProfileButtons backgroundColor="bg-gray-800" onClick={() => console.log('hellp')} label={"Share Profile"}></ProfileButtons>
                         <button className="text-white text-2xl">
                             <IoIosSettings onClick={() => setOpenSettingsModal(true)} />
                         </button>

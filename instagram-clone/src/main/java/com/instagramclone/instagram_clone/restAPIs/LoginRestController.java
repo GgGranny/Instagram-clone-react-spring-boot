@@ -67,6 +67,16 @@ public class LoginRestController {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("User not found");
     }
 
+    @GetMapping("/getUserById/{id}")
+    public ResponseEntity<?> getOurUserById(@PathVariable("id") int id) {
+        OurUser user = userRepo.findById(id).orElse(null);
+        if (user != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(user);
+        }else {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("User not found");
+        }
+    }
+
     @GetMapping("/checkUserSession")
     public ResponseEntity<?> checkUserSession(HttpSession session) {
         if(session.getAttribute("user") == null ) {

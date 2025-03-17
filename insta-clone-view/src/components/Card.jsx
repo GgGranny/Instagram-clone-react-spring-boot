@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function Card({ post, filteredUser }) {
-    const [userId, setUserId] = useState(0);
-    const navigate = useNavigate();
+export default function Card({ post, filteredUser, onClick }) {
     if (!post) return null;
     console.log('user form card: ', filteredUser)
     return (
@@ -16,11 +14,7 @@ export default function Card({ post, filteredUser }) {
                             src={`data:image/jpeg;base64,${user.profilePicture}`}
                             alt="Avatar"
                         />
-                        <button onClick={() =>
-                            navigate(`/profile/${user.id}`)
-
-                        } className="text-sm hover:cursor-pointer">
-                            <input type="text" value={filteredUser.id} className='hidden' />
+                        <button onClick={onClick} className="text-sm hover:cursor-pointer">
                             <h2>{post.username || "Unknown User"}</h2>
                             <p className="text-xs">{post.caption || ""}</p>
                         </button>
