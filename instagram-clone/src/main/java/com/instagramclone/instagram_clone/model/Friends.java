@@ -9,14 +9,16 @@ public class Friends {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "sender_id")
-    private OurUser senderId;
+    @JoinColumn(name="sender_id")
+    private OurUser sender;
 
     @ManyToOne
     @JoinColumn(name = "receiver_id")
-    private OurUser receiverId;
+    private OurUser receiver;
 
     private RequestStatus requestStatus;
+
+    private String data;
 
     public int getId() {
         return id;
@@ -26,20 +28,20 @@ public class Friends {
         this.id = id;
     }
 
-    public OurUser getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(OurUser senderId) {
-        this.senderId = senderId;
-    }
-
     public OurUser getReceiverId() {
-        return receiverId;
+        return sender;
     }
 
-    public void setReceiverId(OurUser receiverId) {
-        this.receiverId = receiverId;
+    public void setReceiverId(OurUser sender) {
+        this.sender = sender;
+    }
+
+    public OurUser getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(OurUser receiver) {
+        this.receiver = receiver;
     }
 
     public RequestStatus getRequestStatus() {
@@ -50,13 +52,22 @@ public class Friends {
         this.requestStatus = requestStatus;
     }
 
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
     @Override
     public String toString() {
         return "Friends{" +
                 "id=" + id +
-                ", senderId=" + senderId +
-                ", receiverId=" + receiverId +
+                ", sender=" + sender +
+                ", receiver=" + receiver +
                 ", requestStatus=" + requestStatus +
+                ", data='" + data + '\'' +
                 '}';
     }
 }

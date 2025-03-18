@@ -3,7 +3,6 @@ package com.instagramclone.instagram_clone.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +20,33 @@ public class OurUser {
     @Lob
     private byte[] profilePicture;
 
+    @OneToMany(mappedBy = "sender")
+    private List<Friends> requestSent;
+
+    @OneToMany(mappedBy = "receiver")
+    private List<Friends> requestReceived;
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Content> content;
+
+    public List<Friends> getRequestSent() {
+        return requestSent;
+    }
+
+    public void setRequestSent(List<Friends> requestSent) {
+        this.requestSent = requestSent;
+    }
+
+    public List<Friends> getRequestReceived() {
+        return requestReceived;
+    }
+
+    public void setRequestReceived(List<Friends> requestReceived) {
+        this.requestReceived = requestReceived;
+    }
+
     public byte[] getProfilePicture() {
         return profilePicture;
     }
@@ -29,19 +55,6 @@ public class OurUser {
         this.profilePicture = profilePicture;
     }
 
-    @ManyToMany
-    @JoinTable(
-            name = "friendships",
-            joinColumns = @JoinColumn(name = "sender_id"),
-            inverseJoinColumns = @JoinColumn(name = "receiver_id")
-    )
-    private Set<OurUser> friends = new HashSet<>();
-
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Content> content;
-
     public List<Content> getContent() {
         return content;
     }
@@ -49,15 +62,6 @@ public class OurUser {
     public void setContent(List<Content> content) {
         this.content = content;
     }
-
-    public Set<OurUser> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(Set<OurUser> friends) {
-        this.friends = friends;
-    }
-
 
     public int getId() {
         return id;
@@ -107,7 +111,7 @@ public class OurUser {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", fullname='" + fullname + '\'' +
-                ", friends=" + friends +
+                ", friends="  +
                 "," +
                 '}';
     }
