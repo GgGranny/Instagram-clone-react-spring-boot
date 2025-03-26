@@ -1,5 +1,6 @@
 package com.instagramclone.instagram_clone.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Arrays;
@@ -13,6 +14,7 @@ public class Content {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private OurUser user;
 
     private ContentType imageType;

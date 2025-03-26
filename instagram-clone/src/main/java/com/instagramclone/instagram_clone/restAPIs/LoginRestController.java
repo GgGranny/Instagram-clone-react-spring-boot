@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -51,10 +52,13 @@ public class LoginRestController {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Username or password incorrect");
     }
 
-    @GetMapping("/getAllUser")
+    @GetMapping("/getAllUsers")
     public ResponseEntity<?> getAllUser() {
         List<OurUser> allUsers = userRepo.findAll();
-        return !allUsers.isEmpty() ?ResponseEntity.status(HttpStatus.OK).body(allUsers): ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("No users found");
+        if(!allUsers.isEmpty()){
+        return ResponseEntity.status(HttpStatus.OK).body(allUsers);
+        }
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("No users found");
     }
     @GetMapping("/user")
     public ResponseEntity<Object> getOurUser(HttpSession session) {

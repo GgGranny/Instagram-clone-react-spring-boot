@@ -21,13 +21,14 @@ public class OurUser {
     private byte[] profilePicture;
 
     @OneToMany(mappedBy = "sender")
+    @JsonIgnore
     private List<Friends> requestSent;
 
     @OneToMany(mappedBy = "receiver")
+    @JsonIgnore
     private List<Friends> requestReceived;
 
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Content> content;
 

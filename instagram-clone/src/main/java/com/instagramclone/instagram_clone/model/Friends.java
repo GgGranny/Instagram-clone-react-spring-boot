@@ -28,11 +28,11 @@ public class Friends {
         this.id = id;
     }
 
-    public OurUser getReceiverId() {
+    public OurUser getSender() {
         return sender;
     }
 
-    public void setReceiverId(OurUser sender) {
+    public void setSender(OurUser sender) {
         this.sender = sender;
     }
 

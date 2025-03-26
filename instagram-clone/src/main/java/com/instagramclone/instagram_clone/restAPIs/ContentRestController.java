@@ -41,6 +41,7 @@ public class ContentRestController {
     @GetMapping("/getContent")
     public ResponseEntity<?> getContent() {
         List<Content> content = userService.getContent();
+        System.out.println("getting the content: "+ content.toString());
         log.info("getting content: " + content.size());
         return !content.isEmpty() ? ResponseEntity.ok().body(content) : new ResponseEntity<>("no content available", HttpStatus.BAD_GATEWAY);
     }
