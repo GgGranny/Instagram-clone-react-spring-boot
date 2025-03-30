@@ -13,6 +13,8 @@ export default function OtherUserProfile({ userId }) {
         profilePhoto: null,
         fullname: ''
     });
+    const [friendStatus, setFriendStatus] = useState("");
+    const [isFriend, setIsFriend] = useState(false);
 
     useEffect(() => {
         if (!userId) return;
@@ -28,11 +30,12 @@ export default function OtherUserProfile({ userId }) {
                         : "/default-profile.png"
                 });
                 getPostCount(response.data.id);
+                checkFriendStatus();
             })
             .catch((error) => {
                 console.error("Error fetching user:", error);
             });
-    }, [userId]);
+    }, [friendStatus, isFriend]);
 
     const getPostCount = (id) => {
         axios.get(`http://localhost:8080/api/getPostCount/${id}`, { withCredentials: true })
@@ -53,6 +56,29 @@ export default function OtherUserProfile({ userId }) {
                 console.error("Error sending follow request:", error);
             });
     };
+    const checkFriendStatus = async () => {
+        try {
+            const params = new URLSearchParams();
+            params.append("id", userId);
+            const response = await fetch(`http://localhost:8080/api/checkFriendStatus?${params.toString()}`, {
+                method: "GET",
+                credentials: "include",
+            });
+            console.log(response);
+            if (!response.ok) {
+                throw new Error("Something wentwrong ");
+            }
+            setIsFriend(true);
+            const data = await response.json();
+            console.log("friend status:", data);
+            setFriendStatus(data);
+        } catch (error) {
+            console.error("error checking the status: ", error);
+        }
+    }
+    const handleCancleRequest = () => {
+
+    }
 
     return (
         <div className="flex justify-around w-[60%] text-sm gap-x-3 pt-10 text-white">
@@ -78,7 +104,13 @@ export default function OtherUserProfile({ userId }) {
                 <div className="flex gap-4">
                     <div>{user.username}</div>
                     <div className="flex gap-2 justify-center">
-                        <ProfileButtons backgroundColor="bg-blue-500" onClick={handleFollowRequest} label="Follow" />
+                        {isFriend && friendStatus === "PENDING" ? (
+                            <ProfileButtons backgroundColor="bg-gray-800" onClick={handleCancleRequest} label="Request Sent" />
+                        ) : (
+                            <>
+                                <ProfileButtons backgroundColor="bg-blue-500" onClick={handleFollowRequest} label="Follow" />
+                            </>
+                        )}
                         <ProfileButtons backgroundColor="bg-gray-800" onClick={() => console.log("Message Clicked")} label="Message" />
                     </div>
                 </div>

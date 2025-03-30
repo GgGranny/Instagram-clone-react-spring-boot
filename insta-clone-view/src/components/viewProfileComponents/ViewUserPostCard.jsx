@@ -5,7 +5,10 @@ import axios from 'axios';
 export default function ViewUserPostCard() {
     const { userId } = useOutletContext();
     const [posts, setPosts] = useState(null);
+
     const navigate = useNavigate();
+
+
 
 
     useEffect(() => {
@@ -16,6 +19,7 @@ export default function ViewUserPostCard() {
             })
             .catch(error => console.error("Error fetching user data:", error));
     }, [userId]);
+
 
     return (
         <div className='flex justify-center'>

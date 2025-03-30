@@ -38,6 +38,19 @@ public class FriendsServiceImp implements FriendsService {
         return null;
     }
 
+    @Override
+    public boolean checkFriendshipStatus(int id, int userId) {
+        return friendsRepo.existsBySenderIdAndReceiverId(userId, id);
+    }
+    @Override
+    public RequestStatus getFriendshipStaus(int id, int userId) {
+        Friends friends = friendsRepo.findBySenderIdAndReceiverId(userId, id);
+        if(friends != null) {
+            return friends.getRequestStatus();
+        }
+        return null;
+    }
+
     public static String getRequestSentData() {
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

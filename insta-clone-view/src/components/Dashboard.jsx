@@ -6,13 +6,8 @@ import { useNavigate } from 'react-router-dom';
 export default function Dashboard() {
     const [user, setUser] = useState([]);
     const [content, setContent] = useState([]);
-    const [structuredData, setStructuredData] = useState({
-        username: '',
-        caption: '',
-        fullname: '',
-        profilePicture: '',
-        content: null
-    });
+
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,29 +36,26 @@ export default function Dashboard() {
             .catch(error => {
                 console.log(error);
             })
+
     }, []);
 
-    // useEffect(() => {
-    //     axios.get("http://localhost:8080/api/getContent", { withCredentials: true })
-    //         .then(response => {
-    //             setContent(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.error("error fetching content: " + error);
-    //         })
-    // }, []);
+
 
     useEffect(() => {
         console.log("content:", content);
         console.log("user:", user);
-    }, [user, content])
+    }, [user, content]);
+
+    const handleCardNavigation = (userId) => {
+        navigate(`/profile/${userId}`, { state: { id: userId } });
+    }
 
     return (
         <div className=' w-4/5 flex justify-center'>
             <div className='grid h-[80%] grid-cols-1 gap-3'>
                 {user.map((u, index) => {
                     return (
-                        <Card key={index} user={u} onClick={() => navigate(`/profile/${u?.id}`, { state: { id: u?.id } })} />
+                        <Card key={index} user={u} onClick={() => handleCardNavigation(u.id)} />
                     );
                 })}
             </div>

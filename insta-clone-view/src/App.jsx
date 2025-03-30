@@ -38,7 +38,7 @@ function App() {
             <Route path='posts' element={<Posts />} />
             <Route path='tags' element={<Tags />} />
           </Route>
-          <Route path='/profile/:id/' element={<ViewUserProfile />} >
+          <Route path='/profile/:id' element={<ViewUserProfile />} >
             <Route path='posts' element={<ViewUserPostCard />} />
             <Route path='tags' element={<Tags />} />
           </Route>
